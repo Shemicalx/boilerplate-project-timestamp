@@ -23,7 +23,12 @@ app.get("/api/hello", function (req, res) {
   res.json({ greeting: "hello API" });
 });
 
+// API string to date object endpoint
+app.get("/api/timestamp/:date_string", (req, res) => {
+  res.json({ time: req.params.date_string });
+});
+
 // listen for requests :)
-var listener = app.listen(3000, function () {
+var listener = app.listen(process.env.PORT || 3000, function () {
   console.log("Your app is listening on port " + listener.address().port);
 });
