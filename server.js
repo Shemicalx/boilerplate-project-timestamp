@@ -24,8 +24,19 @@ app.get("/api/hello", function (req, res) {
 });
 
 // API string to date object endpoint
-app.get("/api/timestamp/:date_string", (req, res) => {
-  res.json({ time: req.params.date_string });
+app.get("/api/timestamp/:date_string?", (req, res) => {
+  const time = req.params.date_string;
+  if (time) {
+    const unix = Date.parse(time) || Number(time);
+    const utc = new Date(unix).toUTCString();
+    res.json(unix ? { unix, utc } : { error: "Invalid Date" });
+  } else {
+    const currDate = new Date();
+    res.json({
+      unix: currDate.getTime(),
+      utc: currDate.toUTCString(),
+    });
+  }
 });
 
 // listen for requests :)
